@@ -1,1 +1,268 @@
-<>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portafolio Académico de Jonathan Daniel Reyes Gordillo - Ingeniero en Mecatrónica & Desarrollador Java Fullstack (Java 17, Spring Boot, Hibernate, SQL, AWS EC2, Firebase).">
+  <meta name="keywords" content="Jonathan Daniel Reyes Gordillo, Java 17, Spring Boot, Mecatrónica, Portafolio Java, Xideral, AWS EC2, Hibernate, C++, Python">
+  <meta name="author" content="Jonathan Daniel Reyes Gordillo">
+
+  <title>Jonathan Reyes | Portafolio Académico</title>
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <header class="site-header" id="top">
+    <div class="container nav-container">
+      <a href="#top" class="brand-logo" id="brand-link" aria-label="Inicio">
+        <div class="brand-icon">
+          <img src="assets/favicon.svg" alt="Logo Icon" width="36" height="36">
+        </div>
+        <div class="brand-text">Jonathan<span>.dev</span></div>
+      </a>
+
+      <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menú de navegación">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+
+      <nav>
+        <ul class="nav-menu" id="nav-menu">
+          <li><a href="#sobre-mi" class="nav-link active">Sobre Mí</a></li>
+          <li><a href="#tareas" class="nav-link">Tareas</a></li>
+          <li><a href="#ejercicios" class="nav-link">Ejercicios</a></li>
+          <li><a href="#certificaciones" class="nav-link">Certificaciones</a></li>
+          <li><a href="#proyecto-integrador" class="nav-link nav-special">★ Proyecto Integrador</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section" id="sobre-mi">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-info">
+            <div class="hero-badge-top">
+              <span class="pulse-dot"></span>
+              <span>Portafolio Académico &bull; AWS Xideral</span>
+            </div>
+
+            <h1 class="hero-title">
+              Jonathan Daniel <br>
+              <span class="hero-title-highlight">Reyes Gordillo</span>
+            </h1>
+
+            <div class="hero-subtitle">
+              <span>Ing. en Mecatrónica</span>
+              <span class="separator">&bull;</span>
+              <span>Desarrollador Java Fullstack</span>
+            </div>
+
+            <p class="hero-description">
+              Profesional con visión interdisciplinaria que une el control de hardware, sistemas embebidos y modelado físico con la ingeniería de software moderna. Especializado en el desarrollo de arquitecturas monolíticas robustas y de alto rendimiento utilizando <strong>Java 17</strong>, <strong>Spring Boot</strong>, <strong>Spring Security</strong>, <strong>Hibernate</strong> y bases de datos relacionales <strong>SQL</strong>, con despliegues directos en servidores cloud <strong>AWS EC2</strong> y sincronización en tiempo real con <strong>Firebase</strong>.
+            </p>
+
+            <div class="hero-cta-group">
+              <a href="#tareas" class="btn btn-primary" id="btn-hero-tareas">
+                Explorar Tareas
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+              <a href="#ejercicios" class="btn btn-secondary" id="btn-hero-ejercicios">
+                Ver Ejercicios Prácticos
+              </a>
+              <a href="#proyecto-integrador" class="btn btn-special-outline" id="btn-hero-proyecto">
+                Proyecto Integrador
+              </a>
+            </div>
+
+            <div class="tech-stack-container">
+              <div class="tech-group-title">Ecosistema Tecnológico Principal</div>
+              <div class="tech-badges-grid">
+                <span class="tech-badge highlight">&lt;Java 17 /&gt;</span>
+                <span class="tech-badge highlight">Spring Boot</span>
+                <span class="tech-badge highlight">Spring Security</span>
+                <span class="tech-badge highlight">Hibernate / JPA</span>
+                <span class="tech-badge highlight">SQL Relacional</span>
+                <span class="tech-badge highlight-neon">AWS EC2 (Linux)</span>
+                <span class="tech-badge highlight-neon">Google Firebase</span>
+                <span class="tech-badge">C / C++</span>
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">JavaScript</span>
+                <span class="tech-badge">Mecatrónica & Control</span>
+                <span class="tech-badge">Monolitos Modulares</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-visual">
+            <div class="hero-card-terminal">
+              <div class="terminal-header">
+                <div class="terminal-dots">
+                  <div class="dot dot-red"></div>
+                  <div class="dot dot-yellow"></div>
+                  <div class="dot dot-green"></div>
+                </div>
+                <div class="terminal-title">jonathan@ingenieria-java:~$ profile.info</div>
+              </div>
+              <div class="terminal-body">
+                <div class="code-line"><span class="code-keyword">public record</span> <span class="code-class">IngenieroDesarrollador</span>(</div>
+                <div class="code-line">&nbsp;&nbsp;String nombre,</div>
+                <div class="code-line">&nbsp;&nbsp;String especialidad,</div>
+                <div class="code-line">&nbsp;&nbsp;String arquitectura</div>
+                <div class="code-line">) {}</div>
+                <br>
+                <div class="code-line"><span class="code-keyword">var</span> perfil = <span class="code-keyword">new</span> <span class="code-class">IngenieroDesarrollador</span>(</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-string">"Jonathan Daniel Reyes Gordillo"</span>,</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-string">"Mecatrónica + Java Fullstack"</span>,</div>
+                <div class="code-line">&nbsp;&nbsp;<span class="code-string">"Monolítica Modular & Cloud EC2"</span></div>
+                <div class="code-line">);</div>
+                
+                <div class="terminal-stats">
+                  <div class="stat-box">
+                    <div class="stat-value" id="stat-java">Java 17</div>
+                    <div class="stat-label">Versión LTS</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-value" id="stat-cloud">AWS EC2</div>
+                    <div class="stat-label">Despliegue Cloud</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-value" id="stat-auth">Security</div>
+                    <div class="stat-label">Spring & Auth</div>
+                  </div>
+                  <div class="stat-box">
+                    <div class="stat-value" id="stat-realtime">Firebase</div>
+                    <div class="stat-label">Sincronización</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="tareas">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-tag">Entregables</span>
+            <h2 class="section-title">Tareas</h2>
+            <p class="section-desc">
+              Registro de asignaciones y talleres prácticos.
+            </p>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="tareas-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="ejercicios">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-tag">Práctica</span>
+            <h2 class="section-title">Ejercicios</h2>
+            <p class="section-desc">
+              Desafíos de programación y ejercicios prácticos.
+            </p>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="ejercicios-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" id="certificaciones">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-tag">Acreditaciones</span>
+            <h2 class="section-title">Certificaciones</h2>
+            <p class="section-desc">
+              Constancias académicas y certificaciones de competencias.
+            </p>
+          </div>
+        </div>
+
+        <div class="cert-grid" id="certificaciones-grid"></div>
+      </div>
+    </section>
+
+    <section class="section special-section" id="proyecto-integrador">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-title-wrap">
+            <span class="section-tag" style="color: var(--accent-neon);">Sección Especial</span>
+            <h2 class="section-title">Proyecto Integrador</h2>
+          </div>
+        </div>
+
+        <div class="cards-grid" id="proyecto-integrador-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="modal-close-btn" aria-label="Cerrar modal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-badge-row" id="modal-badges"></div>
+        <h3 class="modal-title" id="modal-title">Título del elemento</h3>
+      </div>
+      <div class="modal-body" id="modal-body">
+        Descripción del elemento
+      </div>
+
+      <div class="modal-code-wrap" id="modal-code-wrap">
+        <div class="modal-code-header">
+          <span id="modal-code-lang">&lt;/&gt; Código</span>
+          <button class="btn-copy-code" id="btn-copy-code">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copiar Código
+          </button>
+        </div>
+        <pre class="modal-code-pre"><code id="modal-code-content"></code></pre>
+      </div>
+
+      <div class="modal-pdf-container" id="modal-pdf-wrap" style="display: none;">
+        <iframe class="modal-pdf-frame" id="modal-pdf-frame" src="" title="Visualizador de Documento PDF"></iframe>
+      </div>
+
+      <div class="modal-actions-bar" id="modal-actions-bar" style="display: none;"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <strong>Jonathan Daniel Reyes Gordillo</strong> &bull; <span>Ing. Mecatrónica & Dev Java Fullstack</span>
+        <div style="font-size: 0.8rem; color: var(--text-dim); margin-top: 0.25rem;">
+          AWS Xideral &bull; 2026
+        </div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#sobre-mi">Inicio</a></li>
+        <li><a href="#tareas">Tareas</a></li>
+        <li><a href="#ejercicios">Ejercicios</a></li>
+        <li><a href="#certificaciones">Certificaciones</a></li>
+        <li><a href="#proyecto-integrador">Proyecto Integrador</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
