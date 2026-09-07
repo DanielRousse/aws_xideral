@@ -216,7 +216,7 @@
   </main>
 
   <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal-content">
+    <div class="modal-content" id="modal-content">
       <button class="modal-close-btn" id="modal-close-btn" aria-label="Cerrar modal">&times;</button>
       <div class="modal-header">
         <div class="modal-badge-row" id="modal-badges"></div>
@@ -224,6 +224,47 @@
       </div>
       <div class="modal-body" id="modal-body">
         Descripción del elemento
+      </div>
+
+      <div class="modal-tabs" id="modal-tabs" style="display: none;">
+        <button class="modal-tab-btn active" id="tab-btn-pdf" onclick="cambiarPestanaModal('pdf')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Documento PDF
+        </button>
+        <button class="modal-tab-btn" id="tab-btn-code" onclick="cambiarPestanaModal('code')">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Comandos &amp; Terminal
+        </button>
+      </div>
+
+      <div class="modal-pdf-container" id="modal-pdf-wrap" style="display: none;">
+        <div class="modal-pdf-toolbar">
+          <span class="modal-pdf-title" id="modal-pdf-filename">documento.pdf</span>
+          <div class="modal-pdf-toolbar-actions">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-pdf-action" id="btn-pdf-open">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Abrir Visor Completo
+            </a>
+            <a href="#" download class="btn-pdf-action" id="btn-pdf-download">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Descargar
+            </a>
+          </div>
+        </div>
+        <div class="modal-pdf-viewport">
+          <object class="modal-pdf-frame" id="modal-pdf-object" data="" type="application/pdf">
+            <embed class="modal-pdf-frame" id="modal-pdf-embed" src="" type="application/pdf">
+            <div class="pdf-fallback-box">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--cyan-neon)" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              <h4>Visualización de Documento PDF</h4>
+              <p>Tu navegador tiene restringida la visualización embebida local de PDFs en esta ventana. Puedes acceder directamente al documento mediante las siguientes opciones:</p>
+              <div class="pdf-fallback-actions">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="btn-pdf-fallback-open">Abrir en Nueva Pestaña</a>
+                <a href="#" download class="btn btn-secondary" id="btn-pdf-fallback-download">Descargar PDF</a>
+              </div>
+            </div>
+          </object>
+        </div>
       </div>
 
       <div class="modal-code-wrap" id="modal-code-wrap">
@@ -235,10 +276,6 @@
           </button>
         </div>
         <pre class="modal-code-pre"><code id="modal-code-content"></code></pre>
-      </div>
-
-      <div class="modal-pdf-container" id="modal-pdf-wrap" style="display: none;">
-        <iframe class="modal-pdf-frame" id="modal-pdf-frame" src="" title="Visualizador de Documento PDF"></iframe>
       </div>
 
       <div class="modal-actions-bar" id="modal-actions-bar" style="display: none;"></div>
