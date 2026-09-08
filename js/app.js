@@ -49,6 +49,124 @@ sudo systemctl start docker
 docker run --rm hello-world`,
     pdfUrl: "docs/tareas/tarea-1/tarea-1-entornos.pdf",
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-1/tarea-1-entornos.md"
+  },
+  {
+    id: "tarea-2",
+    modulo: "Módulo 1: Fundamentos de Python & Lógica Algorítmica",
+    titulo: "Cálculo de Métricas Básicas: Mínimo, Máximo y Media",
+    descripcion: "Implementación en Python para el procesamiento de colecciones numéricas: extracción de extremos y obtención de la media aritmética mediante funciones nativas.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["Python", "Estadística Básica", "Min / Max", "Media Aritmética", "Lógica Algorítmica"],
+    criterios: [
+      "Definición y procesamiento de lista numérica de prueba.",
+      "Determinación del valor máximo observado mediante max().",
+      "Determinación del valor mínimo observado mediante min().",
+      "Cálculo y formateo de la media aritmética con redondeo a 2 decimales."
+    ],
+    codigo: `numeros = [3, 6, 2, 6, 3, 6, 4, 5, 2, 6, 3, 7, 5, 8, 3, 10]
+total = 0
+
+print("El valor MAX es: ", max(numeros))
+print("El valor MIN es: ", min(numeros))
+print("La media es: ", round(sum(numeros) / len(numeros), 2))`,
+    htmlUrl: "docs/tareas/tarea-2/tarea-2-minymax.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-2/tarea-2-minymax.html"
+  },
+  {
+    id: "tarea-3",
+    modulo: "Módulo 1: Estadística Descriptiva & Análisis Exploratorio",
+    titulo: "Conceptos Fundamentales de Estadística Descriptiva en Pandas",
+    descripcion: "Reporte técnico de investigación analítica sobre las métricas clave generadas en describe(): count, mean, std, distribución normal, min, percentiles (25%, 50%, 75%) y max con fundamentos matemáticos.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["Estadística Descriptiva", "Pandas", "Distribución Normal", "Desviación Estándar", "Percentiles", "EDA"],
+    criterios: [
+      "Definición formal de count y mean diferenciando manejo de nulos y sensibilidad a outliers.",
+      "Análisis de desviación estándar muestral (std) y propiedades de la distribución normal (campana de Gauss y regla empírica 68-95-99.7).",
+      "Explicación de medidas posicionales: percentil 25% (Q1), percentil 50% (Q2 / mediana) y percentil 75% (Q3).",
+      "Interpretación de cotas extremas min y max, cálculo de rango intercuartílico (IQR) y detección de anomalías.",
+      "Matriz comparativa de métricas en Pandas y consideraciones analíticas en pipelines de datos."
+    ],
+    codigo: null,
+    pdfUrl: "docs/tareas/tarea-3/conceptos.pdf",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-3/conceptos.md"
+  },
+  {
+    id: "tarea-4",
+    modulo: "Módulo 1: Análisis Exploratorio de Datos con Pandas",
+    titulo: "Profiling y Análisis Demográfico del Dataset Titanic",
+    descripcion: "Inspección estructurada y análisis exploratorio del dataset Titanic con Pandas: diagnóstico de columnas y tipos de datos con info(), resumen multidimensional con describe(include='all'), métricas de edad y distribución por sexo y clase.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["Pandas", "Titanic Dataset", "EDA", "describe()", "value_counts()", "Python"],
+    criterios: [
+      "Lectura estructurada del dataset Titanic-Dataset.csv utilizando pandas.read_csv().",
+      "Ejecución e inspección analítica de df.describe(include='all') y df.info().",
+      "Cálculo de edad mínima, máxima y promedio redondeado a 2 decimales.",
+      "Análisis de frecuencias con value_counts() para distribución de género (Sex) y clase de boleto (Pclass)."
+    ],
+    codigo: `import os
+import pandas as pd
+
+df = pd.read_csv("Titanic-Dataset.csv")
+print(df.head())
+
+print(df.describe(include='all'))
+df.info()
+
+print(f"La edad mínima es: {df['Age'].min()} años")
+print(f"La edad máxima es: {df['Age'].max()} años")
+print(f"El promedio de edad es: {df['Age'].mean():.2f} años")
+
+print(df['Sex'].value_counts())
+print(df['Pclass'].value_counts())`,
+    htmlUrl: "docs/tareas/tarea-4/tarea-4-titanic.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-4/tarea-4-titanic.html"
+  },
+  {
+    id: "tarea-5",
+    modulo: "Módulo 1: Transformación & Análisis de Datos Comerciales",
+    titulo: "Análisis de Órdenes y Transacciones del Dataset Chipotle",
+    descripcion: "Procesamiento y limpieza de datos transaccionales con Pandas: conversión de precios monetarios a punto flotante, identificación del producto estrella en ventas, cálculo del volumen de tickets únicos, ticket promedio y catálogo ordenado por demanda.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["Pandas", "Chipotle Dataset", "Data Cleaning", "groupby()", "nunique()", "Agregaciones"],
+    criterios: [
+      "Lectura de archivo TSV remoto y saneamiento de columna item_price removiendo el símbolo '$'.",
+      "Agrupación y cálculo del producto con mayor volumen de unidades vendidas (groupby + sum).",
+      "Conteo de órdenes únicas registradas en el dataset mediante nunique() en order_id.",
+      "Determinación del precio promedio por orden agregando montos totales por ticket.",
+      "Extracción y ordenamiento exhaustivo de los items distintos vendidos de mayor a menor demanda."
+    ],
+    codigo: `import pandas as pd
+import numpy as np
+
+url = 'https://raw.githubusercontent.com/justmarkham/DAT8/master/data/chipotle.tsv'
+chipo = pd.read_csv(url, sep='\\t')
+chipo['item_price'] = chipo['item_price'].str.replace('$', '', regex=False).astype(float)
+
+item_mas_ordenado = chipo.groupby('item_name')['quantity'].sum().sort_values(ascending=False).head(1)
+print(f"El item más ordenado fue: {item_mas_ordenado.index[0]} con {item_mas_ordenado.values[0]} unidades vendidas.")
+
+total_ordenes = chipo['order_id'].nunique()
+print(f"El número total de órdenes registradas es: {total_ordenes}")
+
+precio_promedio_orden = chipo.groupby('order_id')['item_price'].sum().mean()
+print(f"El precio promedio por orden es: \${precio_promedio_orden:.3f}")
+
+items_distintos = chipo['item_name'].nunique()
+print(f"La cantidad total de items distintos vendidos es: {items_distintos}")
+
+conteo_items = chipo.groupby('item_name')['quantity'].sum().sort_values(ascending=False)
+for i, (item, total) in enumerate(conteo_items.items(), 1):
+    print(f"{i}. {item} — {total} unidades vendidas")`,
+    htmlUrl: "docs/tareas/tarea-5/tarea-5-chipotle.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-5/tarea-5-chipotle.html"
   }
 ];
 const ejerciciosData = [
@@ -167,10 +285,24 @@ function renderTareas() {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             ${tarea.fecha || "2026"}
           </span>
-          <button class="btn-card-action" onclick="abrirModalTarea('${tarea.id}')">
-            Ver Detalles
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            ${tarea.htmlUrl ? `
+              <a href="${tarea.htmlUrl}" target="_blank" rel="noopener noreferrer" class="btn-card-action" style="background:rgba(0, 245, 160, 0.08); border-color:rgba(0, 245, 160, 0.25); color:var(--cyan-neon); text-decoration:none;">
+                Ver Cuaderno
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            ` : ''}
+            ${tarea.pdfUrl ? `
+              <a href="${tarea.pdfUrl}" target="_blank" rel="noopener noreferrer" class="btn-card-action" style="background:rgba(244, 63, 94, 0.08); border-color:rgba(244, 63, 94, 0.25); color:#fb7185; text-decoration:none;">
+                PDF
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </a>
+            ` : ''}
+            <button class="btn-card-action" onclick="abrirModalTarea('${tarea.id}')">
+              Detalles
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -343,24 +475,29 @@ function abrirModalTarea(id) {
     ${criteriosList}
   `;
 
-  if (tarea.pdfUrl) {
+  const hasDoc = Boolean(tarea.pdfUrl || tarea.htmlUrl);
+  if (hasDoc) {
     if (modalContent) modalContent.classList.add("has-pdf");
   } else {
     if (modalContent) modalContent.classList.remove("has-pdf");
   }
 
-  if (tarea.pdfUrl && tarea.codigo) {
+  if (hasDoc && tarea.codigo) {
     if (modalTabs) modalTabs.style.display = "flex";
     const tabBtnDoc = document.getElementById("tab-btn-pdf");
-    if (tabBtnDoc) tabBtnDoc.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Documento PDF`;
+    if (tabBtnDoc) {
+      tabBtnDoc.innerHTML = tarea.htmlUrl
+        ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Cuaderno Jupyter`
+        : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Documento PDF`;
+    }
   } else {
     if (modalTabs) modalTabs.style.display = "none";
   }
 
   configurarVisorCodigo(tarea.codigo, "Código");
-  configurarEnlacesYPdf(tarea.repoUrl, tarea.pdfUrl, null);
+  configurarEnlacesYPdf(tarea.repoUrl, tarea.pdfUrl, tarea.htmlUrl);
 
-  if (tarea.pdfUrl) {
+  if (hasDoc) {
     cambiarPestanaModal("pdf");
   } else {
     cambiarPestanaModal("code");
