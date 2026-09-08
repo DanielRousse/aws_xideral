@@ -51,7 +51,26 @@ docker run --rm hello-world`,
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-1/tarea-1-entornos.md"
   }
 ];
-const ejerciciosData = [];
+const ejerciciosData = [
+  {
+    id: "ejercicio-1",
+    titulo: "Práctica 1: Jupyter Notebook y Entornos Virtuales",
+    descripcion: "Aprovisionamiento del entorno interactivo en Python: administración de versiones con pyenv, configuración y aislamiento de entornos virtuales (.venv), instalación de librerías para ciencia de datos y despliegue del servidor Jupyter Notebook en red local.",
+    lenguaje: "Bash / Python",
+    dificultad: "Básico",
+    dificultadClase: "diff-basic",
+    fecha: "Septiembre 2026",
+    htmlUrl: "docs/ejercicios/ejercicio-1/Untitled.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/ejercicios/ejercicio-1/Untitled.html",
+    codigo: `pyenv install 3.14.7
+pyenv global 3.14.7
+python --version
+python -m venv .venv
+source .venv/bin/activate
+pip install notebook
+jupyter notebook --no-browser --ip=0.0.0.0 --port=8888`
+  }
+];
 const certificacionesData = [
   {
     id: "cert-well-architected",
@@ -151,10 +170,18 @@ function renderEjercicios() {
         ${ej.codigo ? `<pre class="code-snippet-preview"><code>${escapeHTML(ej.codigo.split("\n").slice(0, 3).join("\n"))}...</code></pre>` : ''}
         <div class="card-footer" style="margin-top:auto;">
           <span style="font-size:0.8rem; color:var(--text-dim); font-family:var(--font-mono);">&lt;/&gt; Solución</span>
-          <button class="btn-card-action" onclick="abrirModalEjercicio('${ej.id}')">
-            Inspeccionar
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            ${ej.htmlUrl ? `
+              <a href="${ej.htmlUrl}" target="_blank" rel="noopener noreferrer" class="btn-card-action" style="background:rgba(0, 245, 160, 0.08); border-color:rgba(0, 245, 160, 0.25); color:var(--cyan-neon); text-decoration:none;">
+                Ver Cuaderno
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            ` : ''}
+            <button class="btn-card-action" onclick="abrirModalEjercicio('${ej.id}')">
+              Inspeccionar
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -296,12 +323,14 @@ function abrirModalTarea(id) {
 
   if (tarea.pdfUrl && tarea.codigo) {
     if (modalTabs) modalTabs.style.display = "flex";
+    const tabBtnDoc = document.getElementById("tab-btn-pdf");
+    if (tabBtnDoc) tabBtnDoc.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Documento PDF`;
   } else {
     if (modalTabs) modalTabs.style.display = "none";
   }
 
   configurarVisorCodigo(tarea.codigo, "Código");
-  configurarEnlacesYPdf(tarea.repoUrl, tarea.pdfUrl);
+  configurarEnlacesYPdf(tarea.repoUrl, tarea.pdfUrl, null);
 
   if (tarea.pdfUrl) {
     cambiarPestanaModal("pdf");
@@ -320,8 +349,16 @@ function abrirModalEjercicio(id) {
   const overlay = document.getElementById("modal-overlay");
   const modalContent = document.getElementById("modal-content");
   const modalTabs = document.getElementById("modal-tabs");
-  if (modalContent) modalContent.classList.remove("has-pdf");
-  if (modalTabs) modalTabs.style.display = "none";
+  const tabBtnDoc = document.getElementById("tab-btn-pdf");
+
+  if (ej.htmlUrl) {
+    if (modalContent) modalContent.classList.add("has-pdf");
+    if (modalTabs) modalTabs.style.display = "flex";
+    if (tabBtnDoc) tabBtnDoc.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Cuaderno Jupyter`;
+  } else {
+    if (modalContent) modalContent.classList.remove("has-pdf");
+    if (modalTabs) modalTabs.style.display = "none";
+  }
 
   document.getElementById("modal-title").textContent = ej.titulo;
 
@@ -332,8 +369,13 @@ function abrirModalEjercicio(id) {
   document.getElementById("modal-body").innerHTML = `<p>${ej.descripcion || ""}</p>`;
 
   configurarVisorCodigo(ej.codigo, ej.lenguaje);
-  configurarEnlacesYPdf(ej.repoUrl, null);
-  cambiarPestanaModal("code");
+  configurarEnlacesYPdf(ej.repoUrl, null, ej.htmlUrl);
+
+  if (ej.htmlUrl) {
+    cambiarPestanaModal("pdf");
+  } else {
+    cambiarPestanaModal("code");
+  }
 
   overlay.classList.add("active");
   document.body.style.overflow = "hidden";
@@ -346,15 +388,18 @@ function abrirModalCertificacion(id) {
   const overlay = document.getElementById("modal-overlay");
   const modalContent = document.getElementById("modal-content");
   const modalTabs = document.getElementById("modal-tabs");
+  const tabBtnDoc = document.getElementById("tab-btn-pdf");
+
   if (cert.pdfUrl && modalContent) modalContent.classList.add("has-pdf");
   if (modalTabs) modalTabs.style.display = "none";
+  if (tabBtnDoc) tabBtnDoc.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Certificado PDF`;
 
   document.getElementById("modal-title").textContent = cert.nombre;
   document.getElementById("modal-badges").innerHTML = `<span class="module-badge">${cert.emisor}</span><span class="status-badge status-completed">Acreditado</span>`;
   document.getElementById("modal-body").innerHTML = `<p>${cert.descripcion || ""}</p>`;
 
   configurarVisorCodigo(null, null);
-  configurarEnlacesYPdf(null, cert.pdfUrl);
+  configurarEnlacesYPdf(null, cert.pdfUrl, null);
   cambiarPestanaModal("pdf");
 
   overlay.classList.add("active");
@@ -381,7 +426,7 @@ function abrirModalProyecto(id) {
   document.getElementById("modal-body").innerHTML = `<p>${p.descripcion || ""}</p>`;
 
   configurarVisorCodigo(p.codigo, null);
-  configurarEnlacesYPdf(p.repoUrl, p.pdfUrl);
+  configurarEnlacesYPdf(p.repoUrl, p.pdfUrl, null);
 
   if (p.pdfUrl) {
     cambiarPestanaModal("pdf");
@@ -427,10 +472,11 @@ function configurarVisorCodigo(codigo, lenguaje) {
   }
 }
 
-function configurarEnlacesYPdf(repoUrl, pdfUrl) {
+function configurarEnlacesYPdf(repoUrl, pdfUrl, htmlUrl) {
   const pdfWrap = document.getElementById("modal-pdf-wrap");
   const pdfObj = document.getElementById("modal-pdf-object");
   const pdfEmbed = document.getElementById("modal-pdf-embed");
+  const iframeFrame = document.getElementById("modal-iframe-frame");
   const pdfFilename = document.getElementById("modal-pdf-filename");
   const btnPdfOpen = document.getElementById("btn-pdf-open");
   const btnPdfDownload = document.getElementById("btn-pdf-download");
@@ -440,27 +486,87 @@ function configurarEnlacesYPdf(repoUrl, pdfUrl) {
 
   if (pdfUrl) {
     pdfWrap.style.display = "block";
-    if (pdfObj) pdfObj.data = pdfUrl;
-    if (pdfEmbed) pdfEmbed.src = pdfUrl;
+    if (pdfObj) {
+      pdfObj.style.display = "block";
+      pdfObj.data = pdfUrl;
+    }
+    if (pdfEmbed) {
+      pdfEmbed.style.display = "block";
+      pdfEmbed.src = pdfUrl;
+    }
+    if (iframeFrame) {
+      iframeFrame.style.display = "none";
+      iframeFrame.src = "";
+    }
     const fname = pdfUrl.split("/").pop();
     if (pdfFilename) pdfFilename.textContent = fname;
-    if (btnPdfOpen) btnPdfOpen.href = pdfUrl;
+    if (btnPdfOpen) {
+      btnPdfOpen.href = pdfUrl;
+      btnPdfOpen.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir Visor Completo`;
+    }
     if (btnPdfDownload) {
       btnPdfDownload.href = pdfUrl;
       btnPdfDownload.setAttribute("download", fname);
+      btnPdfDownload.style.display = "inline-flex";
+      btnPdfDownload.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar`;
     }
     if (btnFallbackOpen) btnFallbackOpen.href = pdfUrl;
     if (btnFallbackDownload) {
       btnFallbackDownload.href = pdfUrl;
       btnFallbackDownload.setAttribute("download", fname);
     }
+  } else if (htmlUrl) {
+    pdfWrap.style.display = "block";
+    if (pdfObj) {
+      pdfObj.style.display = "none";
+      pdfObj.data = "";
+    }
+    if (pdfEmbed) {
+      pdfEmbed.style.display = "none";
+      pdfEmbed.src = "";
+    }
+    if (iframeFrame) {
+      iframeFrame.style.display = "block";
+      iframeFrame.src = htmlUrl;
+    }
+    const fname = htmlUrl.split("/").pop();
+    if (pdfFilename) pdfFilename.textContent = fname + " (Cuaderno Jupyter)";
+    if (btnPdfOpen) {
+      btnPdfOpen.href = htmlUrl;
+      btnPdfOpen.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Abrir Pantalla Completa`;
+    }
+    if (btnPdfDownload) {
+      btnPdfDownload.href = htmlUrl;
+      btnPdfDownload.setAttribute("download", fname);
+      btnPdfDownload.style.display = "inline-flex";
+      btnPdfDownload.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Descargar HTML`;
+    }
   } else {
     pdfWrap.style.display = "none";
-    if (pdfObj) pdfObj.data = "";
-    if (pdfEmbed) pdfEmbed.src = "";
+    if (pdfObj) {
+      pdfObj.data = "";
+      pdfObj.style.display = "block";
+    }
+    if (pdfEmbed) {
+      pdfEmbed.src = "";
+      pdfEmbed.style.display = "block";
+    }
+    if (iframeFrame) {
+      iframeFrame.src = "";
+      iframeFrame.style.display = "none";
+    }
   }
 
   let botonesHtml = "";
+  if (htmlUrl) {
+    botonesHtml += `
+      <a href="${htmlUrl}" target="_blank" rel="noopener noreferrer" class="btn-pdf" style="background: rgba(0, 245, 160, 0.1); border-color: rgba(0, 245, 160, 0.3); color: var(--cyan-neon);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        Abrir Cuaderno (HTML)
+      </a>
+    `;
+  }
+
   if (repoUrl) {
     botonesHtml += `
       <a href="${repoUrl}" target="_blank" rel="noopener noreferrer" class="btn-repo">
@@ -492,11 +598,13 @@ function cerrarModal() {
   const overlay = document.getElementById("modal-overlay");
   const pdfObj = document.getElementById("modal-pdf-object");
   const pdfEmbed = document.getElementById("modal-pdf-embed");
+  const iframeFrame = document.getElementById("modal-iframe-frame");
   const modalContent = document.getElementById("modal-content");
   if (overlay) {
     overlay.classList.remove("active");
     if (pdfObj) pdfObj.data = "";
     if (pdfEmbed) pdfEmbed.src = "";
+    if (iframeFrame) iframeFrame.src = "";
     if (modalContent) modalContent.classList.remove("has-pdf");
     document.body.style.overflow = "";
   }
