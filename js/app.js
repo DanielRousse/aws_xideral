@@ -69,6 +69,34 @@ python -m venv .venv
 source .venv/bin/activate
 pip install notebook
 jupyter notebook --no-browser --ip=0.0.0.0 --port=8888`
+  },
+  {
+    id: "ejercicio-2",
+    titulo: "Ejercicio 2: Procesamiento y Clasificación de Ventas",
+    descripcion: "Resolución algorítmica para el procesamiento de colecciones numéricas en Python: cálculo de suma total acumulada, obtención de promedio aritmético y filtrado condicional de ventas altas y bajas.",
+    lenguaje: "Python",
+    dificultad: "Básico",
+    dificultadClase: "diff-basic",
+    fecha: "Septiembre 2026",
+    htmlUrl: "docs/ejercicios/ejercicio-2/ejercicio-2-problema-python.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/ejercicios/ejercicio-2/ejercicio-2-problema-python.html",
+    codigo: `ventas = [100, 300, 150, 400, 250]
+total = 0
+promedio = 0
+
+for venta in ventas:
+    total = total + venta
+print(total)
+
+for venta in ventas:
+    promedio = total / len(ventas)
+print(promedio)
+
+for venta in ventas:
+    if venta >= 250:
+        print(venta, "-> Venta alta")
+    else:
+        print(venta, "-> Venta baja")`
   }
 ];
 const certificacionesData = [
