@@ -52,7 +52,28 @@ docker run --rm hello-world`,
   }
 ];
 const ejerciciosData = [];
-const certificacionesData = [];
+const certificacionesData = [
+  {
+    id: "cert-well-architected",
+    nombre: "AWS Well-Architected Foundations",
+    emisor: "AWS Training & Certification",
+    fecha: "08 de Septiembre de 2026",
+    descripcion: "Acreditación oficial expedida por Amazon Web Services sobre los 6 pilares de excelencia arquitectónica en la nube: Excelencia Operativa, Seguridad, Fiabilidad, Eficacia del Rendimiento, Optimización de Costos y Sostenibilidad.",
+    habilidades: ["AWS Cloud", "Well-Architected Framework", "Seguridad Cloud", "Optimización de Costos", "Alta Disponibilidad"],
+    pdfUrl: "docs/certificados/certificate_AWSWellArchitectedFoundations.pdf",
+    icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`
+  },
+  {
+    id: "cert-serverless-mindset",
+    nombre: "Getting into the Serverless Mindset",
+    emisor: "AWS Training & Certification",
+    fecha: "07 de Septiembre de 2026",
+    descripcion: "Acreditación oficial de Amazon Web Services en fundamentos y principios de arquitecturas Serverless, diseño desacoplado dirigido por eventos (Event-Driven), microservicios modernos y servicios serverless nativos (AWS Lambda, Amazon API Gateway y Amazon DynamoDB).",
+    habilidades: ["AWS Serverless", "Event-Driven", "AWS Lambda", "API Gateway", "Arquitecturas Cloud"],
+    pdfUrl: "docs/certificados/certificate_GettingIntoTheServerlessMindset.pdf",
+    icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
+  }
+];
 const proyectoIntegradorData = [];
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -162,18 +183,17 @@ function renderCertificaciones() {
           <div class="cert-date">${cert.fecha || "2026"}</div>
           <p class="card-desc" style="font-size:0.88rem; margin-bottom:0.75rem;">${cert.descripcion || ""}</p>
           <div class="card-tags">${skillsHtml}</div>
-          <div style="margin-top:0.75rem; display:flex; gap:0.5rem;">
+          <div style="margin-top:1rem; display:flex; gap:0.75rem; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+            <div class="cert-badge-verify">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Acreditado
+            </div>
             ${cert.pdfUrl ? `
               <button class="btn-pdf" onclick="abrirModalCertificacion('${cert.id}')">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                Ver PDF
+                Ver Certificado
               </button>
-            ` : `
-              <div class="cert-badge-verify">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                Acreditado
-              </div>
-            `}
+            ` : ''}
           </div>
         </div>
       </div>
