@@ -167,6 +167,89 @@ for i, (item, total) in enumerate(conteo_items.items(), 1):
     print(f"{i}. {item} — {total} unidades vendidas")`,
     htmlUrl: "docs/tareas/tarea-5/tarea-5-chipotle.html",
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-5/tarea-5-chipotle.html"
+  },
+  {
+    id: "tarea-6",
+    modulo: "Módulo 1: Cloud Storage (S3) & Visualización de Datos",
+    titulo: "Visualización y Análisis del Dataset Spotify 2023 desde AWS S3",
+    descripcion: "Ingesta y lectura de datos alojados en un bucket de Amazon S3 mediante el SDK boto3 y generación de cinco visualizaciones analíticas con Matplotlib: ranking de artistas con más canciones en 2023, distribución de danceability, relación entre energía y bailabilidad, boxplot comparativo de cuatro atributos musicales y dispersión de streams frente a danceability.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["AWS S3", "boto3", "Spotify Dataset", "Matplotlib", "Pandas", "EDA", "Data Visualization"],
+    criterios: [
+      "Conexión e ingesta de datos directamente desde bucket S3 mediante cliente boto3.",
+      "Cálculo y gráfico de barras horizontales para el Top 10 de artistas con más canciones en 2023.",
+      "Histograma de frecuencias para la distribución del porcentaje de danceability.",
+      "Diagrama de dispersión (scatter plot) relacionando danceability contra energy.",
+      "Diagrama de caja (boxplot) comparando Danceability, Energy, Valence y Acousticness.",
+      "Análisis de correlación y dispersión entre el porcentaje de danceability y el volumen de streams."
+    ],
+    codigo: `import boto3
+import io
+import pandas as pd
+import matplotlib.pyplot as plt
+
+BUCKET = "xideralaws-curso-benjamin"
+KEY = "spotify-2023.csv"
+
+s3 = boto3.client("s3")
+response = s3.get_object(Bucket=BUCKET, Key=KEY)
+df = pd.read_csv(io.BytesIO(response['Body'].read()), encoding='latin-1')
+
+df["streams"] = pd.to_numeric(df["streams"], errors="coerce")
+
+top_artistas = df['artist(s)_name'].value_counts().head(10)
+plt.figure(figsize=(10, 5))
+plt.barh(top_artistas.index[::-1], top_artistas.values[::-1], color="#1DB954")
+plt.title("Top 10 Artistas con más canciones en Spotify 2023")
+plt.xlabel("Cantidad de canciones")
+plt.ylabel("Artista")
+plt.grid(axis='x', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(9, 5))
+plt.hist(df['danceability_%'].dropna(), bins=25, color="#1f77b4", edgecolor="black")
+plt.title("Distribución de Danceability (%)")
+plt.xlabel("Danceability (%)")
+plt.ylabel("Frecuencia (Número de canciones)")
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+plt.figure(figsize=(8, 6))
+plt.scatter(df['danceability_%'], df['energy_%'], alpha=0.5, color="#ff7f0e", edgecolors='none')
+plt.title("Relación entre Danceability (%) y Energy (%)")
+plt.xlabel("Danceability (%)")
+plt.ylabel("Energy (%)")
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()
+
+caracteristicas = ['danceability_%', 'energy_%', 'valence_%', 'acousticness_%']
+nombres = ['Danceability', 'Energy', 'Valence', 'Acousticness']
+datos_boxplot = [df[col].dropna() for col in caracteristicas]
+plt.figure(figsize=(9, 6))
+plt.boxplot(datos_boxplot, tick_labels=nombres, patch_artist=True)
+plt.title("Comparación de 4 Características Musicales")
+plt.ylabel("Porcentaje (%)")
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+df_streams = df.dropna(subset=['streams', 'danceability_%'])
+plt.figure(figsize=(9, 6))
+plt.scatter(df_streams['danceability_%'], df_streams['streams'], alpha=0.5, color="#2ca02c", edgecolors='none')
+plt.title("Relación entre Danceability (%) y Streams")
+plt.xlabel("Danceability (%)")
+plt.ylabel("Streams (Reproducciones)")
+plt.ticklabel_format(style='plain', axis='y')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.tight_layout()
+plt.show()`,
+    htmlUrl: "docs/tareas/tarea-6/tarea-6-spotify.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-6/tarea-6-spotify.html"
   }
 ];
 const ejerciciosData = [
