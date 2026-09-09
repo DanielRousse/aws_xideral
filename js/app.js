@@ -302,6 +302,16 @@ for venta in ventas:
 ];
 const certificacionesData = [
   {
+    id: "cert-data-engineering-foundations",
+    nombre: "Data Engineering on AWS Foundations",
+    emisor: "AWS Training & Certification",
+    fecha: "08 de Septiembre de 2026",
+    descripcion: "Acreditación oficial expedida por Amazon Web Services sobre los fundamentos de ingeniería de datos en la nube: diseño y gestión del ciclo de vida del dato (ingesta, almacenamiento, procesamiento y visualización), data lakes en Amazon S3, pipelines analíticos y servicios de procesamiento como AWS Glue y Amazon Athena.",
+    habilidades: ["AWS Data Engineering", "Amazon S3", "AWS Glue", "Data Lakes", "Pipelines de Datos", "Analytics"],
+    pdfUrl: "docs/certificados/certificate-DataEngineeringOnAWSFoundations.pdf",
+    icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`
+  },
+  {
     id: "cert-well-architected",
     nombre: "AWS Well-Architected Foundations",
     emisor: "AWS Training & Certification",
