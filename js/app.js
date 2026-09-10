@@ -250,6 +250,145 @@ plt.tight_layout()
 plt.show()`,
     htmlUrl: "docs/tareas/tarea-6/tarea-6-spotify.html",
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-6/tarea-6-spotify.html"
+  },
+  {
+    id: "tarea-7",
+    modulo: "Módulo 1: Cloud Data Lakes & Ingesta Masiva en S3",
+    titulo: "Pipeline Automatizado de Descarga e Ingesta Particionada de NYC Taxi a S3",
+    descripcion: "Diseño e implementación de un pipeline ETL para la descarga y streaming de datasets masivos de taxis de Nueva York (Yellow, Green, FHV, FHVHV) en formato Parquet desde CloudFront y su almacenamiento estructurado y particionado en Amazon S3 por categoría, año y mes mediante boto3 y buffers en memoria.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["AWS S3", "boto3", "CloudFront", "Parquet", "ETL", "Data Lakes", "Python", "Streaming Ingestion"],
+    criterios: [
+      "Conexión e ingesta directa de archivos Parquet de NYC TLC Trip Record Data desde CDN CloudFront.",
+      "Manejo de streaming HTTP por bloques (chunks de 8 MB) en memoria con io.BytesIO para evitar saturación de disco local.",
+      "Arquitectura de Data Lake con particionamiento jerárquico en S3 (raw_data/{categoria}/{year}/{month}/).",
+      "Control de flujo, excepciones y validación de disponibilidad de datos para los periodos 2024 a 2026.",
+      "Verificación de ingesta y validación visual de estructura de directorios en consola AWS S3."
+    ],
+    codigo: `import io
+import boto3
+import requests
+
+s3 = boto3.client("s3", region_name="us-west-1")
+BUCKET = "xideralaws-curso-jonathan"
+
+CATEGORIAS = {
+    "yellow_taxis": "yellow_tripdata",
+    "green_taxis": "green_tripdata",
+    "fhv": "fhv_tripdata",
+    "fhvhv": "fhvhv_tripdata"
+}
+
+BASE_URL = "https://d37ci6vzurychx.cloudfront.net/trip-data"
+
+def descargar_y_subir_s3(categoria, year, month):
+    prefix_file = CATEGORIAS[categoria]
+    file_name = f"\${prefix_file}_\${year}-\${month:02d}.parquet"
+    url = f"\${BASE_URL}/\${file_name}"
+    target_key = f"proyecto-final/raw_data/\${categoria}/\${year}/\${month:02d}/\${file_name}"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    try:
+        with requests.get(url, headers=headers, stream=True, timeout=60) as response:
+            if response.status_code == 200:
+                buffer = io.BytesIO()
+                for chunk in response.iter_content(chunk_size=1024 * 1024 * 8):
+                    if chunk:
+                        buffer.write(chunk)
+                buffer.seek(0)
+                s3.upload_fileobj(buffer, BUCKET, target_key)
+                print(f"[OK] Subido: s3://\${BUCKET}/\${target_key}")
+                return True
+            elif response.status_code in [403, 404]:
+                print(f"[SKIP] No disponible: \${file_name} (\${response.status_code})")
+                return False
+            else:
+                print(f"[ERROR] Código \${response.status_code} en \${file_name}")
+                return False
+    except Exception as e:
+        print(f"[FAIL] Error procesando \${file_name}: \${e}")
+        return False
+
+years = [2024, 2025, 2026]
+for year in years:
+    for mes in range(1, 13):
+        print(f"\\n--- Procesando período \${year}-\${mes:02d} ---")
+        for cat in CATEGORIAS.keys():
+            descargar_y_subir_s3(cat, year, mes)`,
+    htmlUrl: "docs/tareas/tarea-7/tarea-7-nycdb.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-7/tarea-7-nycdb.html"
+  },
+  {
+    id: "tarea-8",
+    modulo: "Módulo 1: Cloud Data Warehousing & Análisis de Negocio en S3",
+    titulo: "Análisis Exploratorio y Business Intelligence del Dataset E-Commerce Olist Brasil en AWS S3",
+    descripcion: "Extracción e integración de múltiples datasets relacionales (pedidos, ítems, pagos, clientes, productos, reviews) alojados en AWS S3 mediante boto3 y Pandas para resolver preguntas clave de negocio sobre volumen de ventas por estado, ticket promedio, categorías e ingresos, métodos de pago, estacionalidad mensual y correlación entre tiempos de entrega y satisfacción del cliente.",
+    fecha: "Septiembre 2026",
+    estado: "completed",
+    estadoTexto: "Completada",
+    tags: ["AWS S3", "boto3", "Pandas", "E-Commerce", "Business Intelligence", "EDA", "Olist Dataset"],
+    criterios: [
+      "Ingesta y lectura directa de múltiples archivos CSV limpios desde bucket S3 con boto3 y io.BytesIO.",
+      "Identificación de estados con mayor volumen y valor de ventas (San Pablo a la cabeza con R$ 5.76M).",
+      "Cálculo del ticket promedio por orden de compra (R$ 160.990).",
+      "Determinación de categorías líderes en ingresos (health_beauty y watches_gifts) y top vendedores.",
+      "Análisis de métodos de pago (predominio de tarjeta de crédito con más de 76,000 transacciones).",
+      "Evaluación de estacionalidad mensual y relación inversa comprobada entre días de entrega y review score."
+    ],
+    codigo: `import io
+import boto3
+import pandas as pd
+
+s3 = boto3.client("s3", region_name="us-west-1")
+bucket = "xideralaws-curso-jonathan"
+prefix = "clean_data"
+
+def load_clean_data(file_name):
+    key = f"\${prefix}/\${file_name}"
+    response = s3.get_object(Bucket=bucket, Key=key)
+    return pd.read_csv(io.BytesIO(response["Body"].read()), encoding="utf-8")
+
+orders = load_clean_data("olist_orders_dataset.csv")
+order_items = load_clean_data("olist_order_items_dataset.csv")
+order_payments = load_clean_data("olist_order_payments_dataset.csv")
+order_reviews = load_clean_data("olist_order_reviews_dataset.csv")
+customers = load_clean_data("olist_customers_dataset.csv")
+products = load_clean_data("olist_products_dataset.csv")
+translations = load_clean_data("product_category_name_translation.csv")
+translations.columns = translations.columns.str.replace("ï»¿", "").str.strip()
+
+orders_customers = orders.merge(customers, on="customer_id")
+ventas_por_estado = (
+    orders_customers
+    .merge(order_payments, on="order_id")
+    .groupby("customer_state")["payment_value"]
+    .sum()
+    .sort_values(ascending=False)
+    .head(10)
+)
+
+ticket_promedio = order_payments.groupby("order_id")["payment_value"].sum().mean()
+print(f"Ticket promedio por orden: R$ \${ticket_promedio:.3f}")
+
+orders["order_purchase_timestamp"] = pd.to_datetime(orders["order_purchase_timestamp"])
+orders["order_delivered_customer_date"] = pd.to_datetime(orders["order_delivered_customer_date"])
+orders["dias_entrega"] = (
+    orders["order_delivered_customer_date"] - orders["order_purchase_timestamp"]
+).dt.days
+
+relacion_calificacion = (
+    orders.merge(order_reviews, on="order_id")
+    .dropna(subset=["dias_entrega", "review_score"])
+    .groupby("review_score")["dias_entrega"]
+    .mean()
+    .reset_index()
+    .rename(columns={"review_score": "calificacion_estrellas", "dias_entrega": "promedio_dias_entrega"})
+    .sort_values(by="calificacion_estrellas")
+)
+print(relacion_calificacion)`,
+    htmlUrl: "docs/tareas/tarea-8/brazil-db.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-8/brazil-db.html"
   }
 ];
 const ejerciciosData = [
