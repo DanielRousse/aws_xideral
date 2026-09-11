@@ -1,12 +1,9 @@
 const tareasData = [
   {
     id: "tarea-1",
-    modulo: "Módulo 1: Infraestructura & Herramientas",
     titulo: "Aprovisionamiento de Herramientas: AWS EC2 y Entorno Local CachyOS",
     descripcion: "Documentación técnica del aprovisionamiento de una instancia remota en AWS EC2 (Docker, Zsh, análisis de cuota EBS) y la configuración de un entorno interactivo en CachyOS con Fish Shell, venv, Jupyter Notebook y Docker con Docker Compose.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["AWS EC2", "CachyOS", "Docker", "Docker Compose", "Fish Shell", "Zsh", "Jupyter", "Python 3.14", "Troubleshooting"],
     criterios: [
       "Instancia AWS EC2 aprovisionada con actualización integral (apt update & upgrade).",
@@ -52,12 +49,9 @@ docker run --rm hello-world`,
   },
   {
     id: "tarea-2",
-    modulo: "Módulo 1: Fundamentos de Python & Lógica Algorítmica",
     titulo: "Cálculo de Métricas Básicas: Mínimo, Máximo y Media",
     descripcion: "Implementación en Python para el procesamiento de colecciones numéricas: extracción de extremos y obtención de la media aritmética mediante funciones nativas.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["Python", "Estadística Básica", "Min / Max", "Media Aritmética", "Lógica Algorítmica"],
     criterios: [
       "Definición y procesamiento de lista numérica de prueba.",
@@ -76,12 +70,9 @@ print("La media es: ", round(sum(numeros) / len(numeros), 2))`,
   },
   {
     id: "tarea-3",
-    modulo: "Módulo 1: Estadística Descriptiva & Análisis Exploratorio",
     titulo: "Conceptos Fundamentales de Estadística Descriptiva en Pandas",
     descripcion: "Reporte técnico de investigación analítica sobre las métricas clave generadas en describe(): count, mean, std, distribución normal, min, percentiles (25%, 50%, 75%) y max con fundamentos matemáticos.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["Estadística Descriptiva", "Pandas", "Distribución Normal", "Desviación Estándar", "Percentiles", "EDA"],
     criterios: [
       "Definición formal de count y mean diferenciando manejo de nulos y sensibilidad a outliers.",
@@ -96,12 +87,9 @@ print("La media es: ", round(sum(numeros) / len(numeros), 2))`,
   },
   {
     id: "tarea-4",
-    modulo: "Módulo 1: Análisis Exploratorio de Datos con Pandas",
     titulo: "Profiling y Análisis Demográfico del Dataset Titanic",
     descripcion: "Inspección estructurada y análisis exploratorio del dataset Titanic con Pandas: diagnóstico de columnas y tipos de datos con info(), resumen multidimensional con describe(include='all'), métricas de edad y distribución por sexo y clase.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["Pandas", "Titanic Dataset", "EDA", "describe()", "value_counts()", "Python"],
     criterios: [
       "Lectura estructurada del dataset Titanic-Dataset.csv utilizando pandas.read_csv().",
@@ -129,12 +117,9 @@ print(df['Pclass'].value_counts())`,
   },
   {
     id: "tarea-5",
-    modulo: "Módulo 1: Transformación & Análisis de Datos Comerciales",
     titulo: "Análisis de Órdenes y Transacciones del Dataset Chipotle",
     descripcion: "Procesamiento y limpieza de datos transaccionales con Pandas: conversión de precios monetarios a punto flotante, identificación del producto estrella en ventas, cálculo del volumen de tickets únicos, ticket promedio y catálogo ordenado por demanda.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["Pandas", "Chipotle Dataset", "Data Cleaning", "groupby()", "nunique()", "Agregaciones"],
     criterios: [
       "Lectura de archivo TSV remoto y saneamiento de columna item_price removiendo el símbolo '$'.",
@@ -170,12 +155,9 @@ for i, (item, total) in enumerate(conteo_items.items(), 1):
   },
   {
     id: "tarea-6",
-    modulo: "Módulo 1: Cloud Storage (S3) & Visualización de Datos",
     titulo: "Visualización y Análisis del Dataset Spotify 2023 desde AWS S3",
     descripcion: "Ingesta y lectura de datos alojados en un bucket de Amazon S3 mediante el SDK boto3 y generación de cinco visualizaciones analíticas con Matplotlib: ranking de artistas con más canciones en 2023, distribución de danceability, relación entre energía y bailabilidad, boxplot comparativo de cuatro atributos musicales y dispersión de streams frente a danceability.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["AWS S3", "boto3", "Spotify Dataset", "Matplotlib", "Pandas", "EDA", "Data Visualization"],
     criterios: [
       "Conexión e ingesta de datos directamente desde bucket S3 mediante cliente boto3.",
@@ -253,12 +235,9 @@ plt.show()`,
   },
   {
     id: "tarea-7",
-    modulo: "Módulo 1: Cloud Data Lakes & Ingesta Masiva en S3",
     titulo: "Pipeline Automatizado de Descarga e Ingesta Particionada de NYC Taxi a S3",
     descripcion: "Diseño e implementación de un pipeline ETL para la descarga y streaming de datasets masivos de taxis de Nueva York (Yellow, Green, FHV, FHVHV) en formato Parquet desde CloudFront y su almacenamiento estructurado y particionado en Amazon S3 por categoría, año y mes mediante boto3 y buffers en memoria.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["AWS S3", "boto3", "CloudFront", "Parquet", "ETL", "Data Lakes", "Python", "Streaming Ingestion"],
     criterios: [
       "Conexión e ingesta directa de archivos Parquet de NYC TLC Trip Record Data desde CDN CloudFront.",
@@ -321,12 +300,9 @@ for year in years:
   },
   {
     id: "tarea-8",
-    modulo: "Módulo 1: Cloud Data Warehousing & Análisis de Negocio en S3",
     titulo: "Análisis Exploratorio y Business Intelligence del Dataset E-Commerce Olist Brasil en AWS S3",
     descripcion: "Extracción e integración de múltiples datasets relacionales (pedidos, ítems, pagos, clientes, productos, reviews) alojados en AWS S3 mediante boto3 y Pandas para resolver preguntas clave de negocio sobre volumen de ventas por estado, ticket promedio, categorías e ingresos, métodos de pago, estacionalidad mensual y correlación entre tiempos de entrega y satisfacción del cliente.",
     fecha: "Septiembre 2026",
-    estado: "completed",
-    estadoTexto: "Completada",
     tags: ["AWS S3", "boto3", "Pandas", "E-Commerce", "Business Intelligence", "EDA", "Olist Dataset"],
     criterios: [
       "Ingesta y lectura directa de múltiples archivos CSV limpios desde bucket S3 con boto3 y io.BytesIO.",
@@ -389,6 +365,63 @@ relacion_calificacion = (
 print(relacion_calificacion)`,
     htmlUrl: "docs/tareas/tarea-8/brazil-db.html",
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-8/brazil-db.html"
+  },
+  {
+    id: "tarea-9",
+    titulo: "Procesamiento Distribuido y Análisis de Eventos e-Commerce con Apache Spark",
+    descripcion: "Procesamiento distribuido a gran escala con PySpark sobre más de 10 millones de interacciones del dataset OTTO. Análisis del embudo de conversión (clicks, carts, orders), cálculo de sesiones únicas con countDistinct, detección de sesiones con mayor actividad y ranking de productos más cliqueados, agregados al carrito y comprados con visualizaciones analíticas en Matplotlib.",
+    fecha: "Septiembre 2026",
+    tags: ["Apache Spark", "PySpark", "Big Data", "Parquet", "Kaggle", "Matplotlib", "E-Commerce Analytics", "Distributed Computing"],
+    criterios: [
+      "Configuración de sesión distribuida de Apache Spark (SparkSession) en entorno local con asignación controlada de memoria y particiones de shuffle.",
+      "Carga y validación de esquema de dataset masivo en formato Parquet (más de 10 millones de registros de interacciones).",
+      "Agrupamiento y cálculo porcentual por tipo de evento (clicks, carts y orders) con representación gráfica en escala logarítmica.",
+      "Determinación de cardinalidad única de sesiones de usuario mediante funciones optimizadas (countDistinct).",
+      "Identificación y visualización de las 10 sesiones con mayor volumen de interacción combinada.",
+      "Análisis del embudo de conversión y obtención del top 10 de productos con más clics, más agregados a carrito y con mayor conversión de compras."
+    ],
+    codigo: `import os
+import kagglehub
+import pandas as pd
+import matplotlib.pyplot as plt
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, count, countDistinct, desc, round as spark_round
+
+spark = SparkSession.builder \\
+    .master('local[*]') \\
+    .appName('Tarea9_OTTO_Analytics') \\
+    .config('spark.driver.memory', '1500m') \\
+    .config('spark.sql.shuffle.partitions', '8') \\
+    .getOrCreate()
+
+dataset_path = kagglehub.dataset_download('konradb/otto-dataset-in-dataframe', path='train_data_v1.parquet')
+df = spark.read.parquet(dataset_path)
+
+total_records = df.count()
+print(f'Total de registros cargados: \${total_records:,}')
+
+df_events = df.groupBy('type').count() \\
+    .withColumnRenamed('count', 'total_eventos') \\
+    .withColumn('porcentaje', spark_round((col('total_eventos') / total_records) * 100, 2)) \\
+    .orderBy(desc('total_eventos'))
+df_events.show()
+
+total_sesiones = df.select(countDistinct('session').alias('total_sesiones_unicas')).collect()[0]['total_sesiones_unicas']
+print(f'Número total de sesiones distintas: \${total_sesiones:,}')
+
+top_sesiones = df.groupBy('session').count() \\
+    .withColumnRenamed('count', 'total_interacciones') \\
+    .orderBy(desc('total_interacciones')) \\
+    .limit(10)
+
+top_orders = df.filter(col('type') == 'orders') \\
+    .groupBy('aid').count() \\
+    .withColumnRenamed('count', 'total_compras') \\
+    .orderBy(desc('total_compras')) \\
+    .limit(10)
+top_orders.show()`,
+    htmlUrl: "docs/tareas/tarea-9/traindb-spark.html",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-9/traindb-spark.html"
   }
 ];
 const ejerciciosData = [
@@ -492,22 +525,11 @@ function renderTareas() {
   }
 
   container.innerHTML = tareasData.map(tarea => {
-    let statusClass = "status-pending";
-    if (tarea.estado === "completed") statusClass = "status-completed";
-    if (tarea.estado === "in-progress") statusClass = "status-in-progress";
-
     const tagsHtml = (tarea.tags || []).map(tag => `<span class="tag-pill">${tag}</span>`).join("");
 
     return `
       <article class="card">
         <div>
-          <div class="card-top">
-            <span class="module-badge">${tarea.modulo || "Módulo"}</span>
-            <span class="status-badge ${statusClass}">
-              <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:currentColor;"></span>
-              ${tarea.estadoTexto || "Registrada"}
-            </span>
-          </div>
           <h3 class="card-title">${tarea.titulo}</h3>
           <p class="card-desc">${tarea.descripcion || ""}</p>
           <div class="card-tags">${tagsHtml}</div>
@@ -689,9 +711,7 @@ function abrirModalTarea(id) {
   const modalTabs = document.getElementById("modal-tabs");
   document.getElementById("modal-title").textContent = tarea.titulo;
   
-  let statusBadge = `<span class="status-badge status-${tarea.estado}">${tarea.estadoTexto || tarea.estado}</span>`;
-  let moduleBadge = `<span class="module-badge">${tarea.modulo || "Módulo"}</span>`;
-  document.getElementById("modal-badges").innerHTML = moduleBadge + statusBadge;
+  document.getElementById("modal-badges").innerHTML = "";
 
   const criteriosList = (tarea.criterios && tarea.criterios.length > 0)
     ? `<div style="margin:1rem 0;">
