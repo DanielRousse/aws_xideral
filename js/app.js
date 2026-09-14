@@ -470,6 +470,37 @@ for venta in ventas:
         print(venta, "-> Venta alta")
     else:
         print(venta, "-> Venta baja")`
+  },
+  {
+    id: "ejercicio-3",
+    titulo: "Práctica 3: Arquitectura y Paradigma MapReduce en Hadoop",
+    descripcion: "Modelado algorítmico y conceptual del paradigma distribuido MapReduce para procesamiento masivo de texto (Word Count): etapas de entrada (Input), mapeo por pares clave-valor (Map), agrupamiento y ordenamiento de claves intermedias (Shuffle & Sort) y consolidación acumulada (Reduce).",
+    lenguaje: "Hadoop / Python",
+    dificultad: "Intermedio",
+    dificultadClase: "diff-intermediate",
+    fecha: "Septiembre 2026",
+    pdfUrl: "docs/ejercicios/ejercicio-3/MapReduce.pdf",
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/ejercicios/ejercicio-3/MapReduce.pdf",
+    codigo: `lines = [
+    "Hadoop es rápido",
+    "Hadoop es escalable",
+    "Hadoop es interesante",
+    "Yo aprendo Hadoop"
+]
+
+mapped = []
+for line in lines:
+    for word in line.lower().split():
+        mapped.append((word, 1))
+
+from collections import defaultdict
+shuffled = defaultdict(list)
+for word, count in mapped:
+    shuffled[word].append(count)
+
+reduced = {word: sum(counts) for word, counts in shuffled.items()}
+for word, total in sorted(reduced.items(), key=lambda x: x[1], reverse=True):
+    print(f"(\${word}, \${total})")`
   }
 ];
 const certificacionesData = [
@@ -502,6 +533,16 @@ const certificacionesData = [
     habilidades: ["AWS Serverless", "Event-Driven", "AWS Lambda", "API Gateway", "Arquitecturas Cloud"],
     pdfUrl: "docs/certificados/certificate_GettingIntoTheServerlessMindset.pdf",
     icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`
+  },
+  {
+    id: "cert-cloud-practitioner-essentials",
+    nombre: "AWS Cloud Practitioner Essentials",
+    emisor: "AWS Training & Certification",
+    fecha: "14 de Septiembre de 2026",
+    descripcion: "Acreditación oficial expedida por Amazon Web Services sobre los conceptos fundamentales del cloud computing: arquitectura global de AWS (Regiones, Zonas de Disponibilidad), modelos de computación (EC2, Lambda, ECS), almacenamiento y bases de datos (S3, EBS, RDS, DynamoDB), redes y seguridad (VPC, IAM, Grupos de Seguridad) y modelo de precios y facturación en la nube.",
+    habilidades: ["AWS Cloud", "Cloud Computing", "Infraestructura Global", "AWS IAM", "Seguridad Cloud", "Facturación & Soporte AWS"],
+    pdfUrl: "docs/certificados/certificate-AWSCloudPractitionerEssentials.pdf",
+    icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`
   }
 ];
 const proyectoIntegradorData = [];
@@ -589,6 +630,12 @@ function renderEjercicios() {
               <a href="${ej.htmlUrl}" target="_blank" rel="noopener noreferrer" class="btn-card-action" style="background:rgba(0, 245, 160, 0.08); border-color:rgba(0, 245, 160, 0.25); color:var(--cyan-neon); text-decoration:none;">
                 Ver Cuaderno
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
+            ` : ''}
+            ${ej.pdfUrl ? `
+              <a href="${ej.pdfUrl}" target="_blank" rel="noopener noreferrer" class="btn-card-action" style="background:rgba(244, 63, 94, 0.08); border-color:rgba(244, 63, 94, 0.25); color:#fb7185; text-decoration:none;">
+                PDF
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </a>
             ` : ''}
             <button class="btn-card-action" onclick="abrirModalEjercicio('${ej.id}')">
@@ -768,10 +815,15 @@ function abrirModalEjercicio(id) {
   const modalTabs = document.getElementById("modal-tabs");
   const tabBtnDoc = document.getElementById("tab-btn-pdf");
 
-  if (ej.htmlUrl) {
+  const hasDoc = Boolean(ej.pdfUrl || ej.htmlUrl);
+  if (hasDoc) {
     if (modalContent) modalContent.classList.add("has-pdf");
     if (modalTabs) modalTabs.style.display = "flex";
-    if (tabBtnDoc) tabBtnDoc.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Cuaderno Jupyter`;
+    if (tabBtnDoc) {
+      tabBtnDoc.innerHTML = ej.htmlUrl
+        ? `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Cuaderno Jupyter`
+        : `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Documento PDF`;
+    }
   } else {
     if (modalContent) modalContent.classList.remove("has-pdf");
     if (modalTabs) modalTabs.style.display = "none";
@@ -786,9 +838,9 @@ function abrirModalEjercicio(id) {
   document.getElementById("modal-body").innerHTML = `<p>${ej.descripcion || ""}</p>`;
 
   configurarVisorCodigo(ej.codigo, ej.lenguaje);
-  configurarEnlacesYPdf(ej.repoUrl, null, ej.htmlUrl);
+  configurarEnlacesYPdf(ej.repoUrl, ej.pdfUrl, ej.htmlUrl);
 
-  if (ej.htmlUrl) {
+  if (hasDoc) {
     cambiarPestanaModal("pdf");
   } else {
     cambiarPestanaModal("code");
