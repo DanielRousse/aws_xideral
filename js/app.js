@@ -422,6 +422,61 @@ top_orders = df.filter(col('type') == 'orders') \\
 top_orders.show()`,
     htmlUrl: "docs/tareas/tarea-9/traindb-spark.html",
     repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-9/traindb-spark.html"
+  },
+  {
+    id: "tarea-10",
+    titulo: "Modelado Relacional y Consultas SQL sobre Catálogo de Películas",
+    descripcion: "Conexión remota exitosa desde DBeaver a una base de datos gestionada en Amazon RDS (AWS) para el diseño del esquema relacional DDL (tabla peliculas_jonathan con clave primaria y restricciones de dominio), poblado de datos DML y ejecución de 12 consultas SQL analíticas y operativas (proyecciones, filtros condicionales, ordenamiento, agregaciones AVG/COUNT con GROUP BY, búsquedas por patrón con LIKE y transacciones de actualización con UPDATE).",
+    fecha: "Septiembre 2026",
+    tags: ["AWS RDS", "DBeaver", "SQL", "MySQL", "Cloud Database", "DDL", "DML", "Relational Database"],
+    criterios: [
+      "Conexión remota verificada exitosamente desde el cliente DBeaver hacia instancia gestionada de Amazon RDS en AWS.",
+      "Definición de tabla peliculas_jonathan con tipos de datos estructurados, clave primaria autoincremental y restricciones de dominio.",
+      "Inserción por lotes de 10 largometrajes con diversidad de géneros, directores, duraciones y calificaciones.",
+      "Filtrado condicional por disponibilidad, género cinematográfico y antigüedad.",
+      "Aplicación de funciones de agregación (AVG) para métricas de duración y agrupación categórica (GROUP BY + COUNT).",
+      "Búsqueda por patrones parciales de texto mediante operador LIKE y comodines.",
+      "Actualización atómica de estado mediante UPDATE sobre registro específico y validación de consistencia."
+    ],
+    codigo: `USE cine;
+
+CREATE TABLE peliculas_jonathan (
+    pelicula_id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(150) NOT NULL,
+    director VARCHAR(100) NOT NULL,
+    genero VARCHAR(50) NOT NULL,
+    anio_estreno INT NOT NULL,
+    duracion_minutos INT NOT NULL,
+    calificacion DECIMAL(3, 1) NOT NULL,
+    disponible BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+SELECT * FROM peliculas_jonathan;
+
+SELECT titulo, genero, anio_estreno FROM peliculas_jonathan;
+
+SELECT * FROM peliculas_jonathan WHERE disponible = TRUE;
+
+SELECT * FROM peliculas_jonathan WHERE genero = 'Ciencia Ficción';
+
+SELECT * FROM peliculas_jonathan WHERE anio_estreno > 2015;
+
+SELECT * FROM peliculas_jonathan WHERE calificacion > 8.0;
+
+SELECT * FROM peliculas_jonathan ORDER BY anio_estreno DESC;
+
+SELECT * FROM peliculas_jonathan ORDER BY calificacion DESC LIMIT 1;
+
+SELECT AVG(duracion_minutos) AS duracion_promedio FROM peliculas_jonathan;
+
+SELECT genero, COUNT(*) AS total_peliculas FROM peliculas_jonathan GROUP BY genero;
+
+SELECT * FROM peliculas_jonathan WHERE titulo LIKE '%the%';
+
+UPDATE peliculas_jonathan SET disponible = FALSE WHERE pelicula_id = 1;
+
+SELECT pelicula_id, titulo, disponible FROM peliculas_jonathan WHERE pelicula_id = 1;`,
+    repoUrl: "https://github.com/DanielRousse/aws_xideral/blob/main/docs/tareas/tarea-10/queries-peliculas.md"
   }
 ];
 const ejerciciosData = [
