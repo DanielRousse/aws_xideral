@@ -279,6 +279,38 @@
         <pre class="modal-code-pre"><code id="modal-code-content"></code></pre>
       </div>
 
+      <div class="modal-svg-container" id="modal-svg-wrap" style="display: none;">
+        <div class="modal-pdf-toolbar">
+          <span class="modal-pdf-title" id="modal-svg-filename">ArquitecturaProj.drawio.svg</span>
+          <div class="modal-pdf-toolbar-actions">
+            <a href="docs/special/ArquitecturaProj.drawio.svg" target="_blank" rel="noopener noreferrer" class="btn-pdf-action" id="btn-svg-external">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Nueva Pestaña
+            </a>
+            <a href="docs/special/ArquitecturaProj.drawio.svg" download="ArquitecturaProj.drawio.svg" class="btn-pdf-action" id="btn-svg-download">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Descargar SVG
+            </a>
+          </div>
+        </div>
+        <div class="modal-svg-viewport" id="modal-svg-viewport">
+          <img id="modal-svg-img" src="" alt="Diagrama de Arquitectura" />
+        </div>
+      </div>
+
+      <div class="modal-md-container" id="modal-md-wrap" style="display: none;">
+        <div class="modal-pdf-toolbar">
+          <span class="modal-pdf-title" id="modal-md-filename">documento.md</span>
+          <div class="modal-pdf-toolbar-actions">
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn-pdf-action" id="btn-md-external">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              Ver Archivo Crudo
+            </a>
+          </div>
+        </div>
+        <div class="modal-md-content" id="modal-md-content"></div>
+      </div>
+
       <div class="modal-actions-bar" id="modal-actions-bar" style="display: none;"></div>
     </div>
   </div>
@@ -301,6 +333,6 @@
     </div>
   </footer>
 
-  <script src="js/app.js?v=2.1"></script>
+  <script src="js/app.js?v=2.2"></script>
 </body>
 </html>

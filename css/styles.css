@@ -1320,8 +1320,198 @@ body::before {
   color: #fff;
 }
 
-.modal-content.has-pdf {
-  max-width: 960px;
+.modal-content.has-pdf,
+.modal-content.has-svg,
+.modal-content.has-md {
+  max-width: 980px;
+}
+
+.modal-svg-container {
+  width: 100%;
+  margin: 1rem 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-special);
+  background: #060a12;
+}
+
+.modal-svg-viewport {
+  width: 100%;
+  min-height: 480px;
+  max-height: 70vh;
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: #080d1a;
+}
+
+.modal-svg-viewport img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 25px rgba(0, 245, 160, 0.15));
+}
+
+.modal-md-container {
+  width: 100%;
+  margin: 1rem 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: #060a12;
+}
+
+.modal-md-content {
+  padding: 1.75rem;
+  max-height: 65vh;
+  overflow-y: auto;
+  color: var(--text-main);
+  line-height: 1.75;
+  font-size: 0.95rem;
+}
+
+.modal-md-content h1 {
+  font-size: 1.55rem;
+  color: var(--primary-cyan);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal-md-content h2 {
+  font-size: 1.25rem;
+  color: var(--accent-neon);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.modal-md-content h3 {
+  font-size: 1.05rem;
+  color: #fff;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-md-content h4 {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-md-content p {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.modal-md-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0;
+  font-size: 0.88rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.modal-md-content th {
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--primary-cyan);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-weight: 600;
+}
+
+.modal-md-content td {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  color: var(--text-muted);
+}
+
+.modal-md-content tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-main);
+}
+
+.modal-md-content blockquote {
+  border-left: 3px solid var(--accent-neon);
+  background: rgba(0, 245, 160, 0.04);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin: 1rem 0;
+  font-style: italic;
+  color: var(--text-main);
+}
+
+.modal-md-content ul,
+.modal-md-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.modal-md-content li {
+  margin-bottom: 0.4rem;
+}
+
+.modal-md-content code.inline-code {
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--primary-cyan);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.modal-md-content pre {
+  background: #03060c;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: #e2e8f0;
+}
+
+.modal-md-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  margin: 1rem 0;
+  display: block;
+}
+
+.modal-md-content hr {
+  border: none;
+  border-top: 1px solid var(--border-subtle);
+  margin: 1.5rem 0;
+}
+
+.btn-doc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(0, 242, 254, 0.06);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  color: var(--primary-cyan);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.btn-doc-link:hover {
+  background: rgba(0, 242, 254, 0.15);
+  border-color: var(--primary-cyan);
+  transform: translateY(-1px);
 }
 
 .modal-tabs {
