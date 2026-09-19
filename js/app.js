@@ -600,16 +600,100 @@ const certificacionesData = [
     icono: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`
   }
 ];
-const proyectoIntegradorData = [];
+const proyectoIntegradorData = [
+  {
+    id: "nyc-urban-mobility-lakehouse",
+    titulo: "NYC Urban Mobility Analytics Platform: Cloud Data Lakehouse en AWS",
+    descripcion: "Plataforma empresarial de ingeniería de datos y analítica distribuida sobre más de 766 millones de registros y $23.35 mil millones de dólares del sistema de transporte de Nueva York (NYC TLC). Implementación de arquitectura Medallion (Bronze, Silver, Gold), ingesta y saneamiento serverless con AWS Lambda, procesamiento distribuido masivo y broadcast joins geoespaciales con Apache Spark en EC2, y despliegue continuo (CI/CD) de dashboard interactivo en Streamlit con Docker.",
+    tags: [
+      "AWS S3",
+      "AWS Lambda",
+      "Apache Spark",
+      "PySpark",
+      "Streamlit",
+      "Docker",
+      "CI/CD",
+      "GitHub Actions",
+      "Medallion Architecture",
+      "Big Data",
+      "Data Lakehouse"
+    ],
+    criterios: [
+      "Arquitectura Medallion en Amazon S3: particionamiento optimizado en capas Bronze (raw), Silver (clean) y Gold (analytics).",
+      "Pipeline Serverless con AWS Lambda para ingesta continua y normalización a compresión Snappy.",
+      "Procesamiento distribuido a gran escala con Apache Spark 4.1.2 sobre datasets masivos (FHVhV) y broadcast hash joins con catálogo municipal de 265 zonas.",
+      "Auditoría técnica de calidad con 98.31% de retención limpia y filtrado determinista de anomalías físicas y financieras.",
+      "Dashboard interactivo containerizado con Streamlit y Docker en instancia AWS EC2 servido en el puerto 8501.",
+      "Pipeline de integración y entrega continua (CI/CD) mediante GitHub Actions con runner autoalojado en EC2."
+    ],
+    codigo: `import os
+from pyspark.sql import SparkSession
+from pyspark.sql import functions as F
+from pyspark.sql.types import DoubleType, IntegerType
 
-document.addEventListener("DOMContentLoaded", () => {
+BUCKET = os.environ.get('S3_BUCKET_NAME', 'xideralaws-curso-jonathan')
+AWS_REGION = os.environ.get('AWS_DEFAULT_REGION', 'us-west-1')
+
+LOOKUP_PATH = "s3a://" + BUCKET + "/proyecto-final/lookup/taxi_zone_lookup.csv"
+CLEAN_PATH = "s3a://" + BUCKET + "/proyecto-final/clean_data/*/*/*.parquet"
+GOLD_PATH = "s3a://" + BUCKET + "/proyecto-final/analytics/gold_kpi_summary/"
+
+def build_spark_session():
+    return SparkSession.builder \\
+        .appName('NYC-Urban-Mobility-Analytics-Full-Gold') \\
+        .config('spark.sql.adaptive.enabled', 'true') \\
+        .config('spark.sql.adaptive.coalescePartitions.enabled', 'true') \\
+        .config('spark.sql.shuffle.partitions', '16') \\
+        .getOrCreate()
+
+def run_gold_analytics(spark):
+    lookup = spark.read.option('header', 'true').csv(LOOKUP_PATH)
+    trips = spark.read.parquet(CLEAN_PATH)
+    
+    pu_lookup = lookup.select(
+        F.col('LocationID').cast(IntegerType()).alias('location_id'),
+        F.col('Borough').alias('pu_borough'),
+        F.col('Zone').alias('pu_zone')
+    )
+    do_lookup = lookup.select(
+        F.col('LocationID').cast(IntegerType()).alias('location_id'),
+        F.col('Borough').alias('do_borough'),
+        F.col('Zone').alias('do_zone')
+    )
+    
+    enriched = trips \\
+        .join(F.broadcast(pu_lookup), trips.pulocationid == pu_lookup.location_id, 'left') \\
+        .join(F.broadcast(do_lookup), trips.dolocationid == do_lookup.location_id, 'left')
+        
+    gold_kpis = enriched.groupBy('service_type', F.year('pickup_datetime').alias('year')) \\
+        .agg(
+            F.count('*').alias('total_trips'),
+            F.round(F.sum('total_amount'), 2).alias('gross_revenue'),
+            F.round(F.avg('trip_duration_minutes'), 2).alias('avg_duration_min'),
+            F.round(F.avg('trip_distance'), 2).alias('avg_distance_miles')
+        )
+        
+    gold_kpis.write.mode('overwrite').parquet(GOLD_PATH)`,
+    repoUrl: "https://github.com/DanielRousse/streamlit-curso",
+    docUrl: "docs/special/proyecto_integrador_readme.md",
+    svgUrl: "docs/special/ArquitecturaProj.drawio.svg"
+  }
+];
+
+function inicializarApp() {
   renderTareas();
   renderEjercicios();
   renderCertificaciones();
   renderProyectoIntegrador();
   initModal();
   initNavigation();
-});
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", inicializarApp);
+} else {
+  inicializarApp();
+}
 
 function renderTareas() {
   const container = document.getElementById("tareas-grid");
@@ -756,22 +840,73 @@ function renderProyectoIntegrador() {
   container.innerHTML = proyectoIntegradorData.map(p => {
     const tagsHtml = (p.tags || []).map(t => `<span class="tag-pill">${t}</span>`).join("");
     return `
-      <article class="card">
-        <div class="card-top">
-          <span class="module-badge">Proyecto Integrador</span>
-          <span class="status-badge status-in-progress">En Desarrollo</span>
+      <div class="special-wrapper" style="grid-column: 1 / -1;">
+        <div class="special-badge-wrap">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          AWS Cloud Data Lakehouse • 766M+ Registros
         </div>
-        <h3 class="card-title">${p.titulo}</h3>
-        <p class="card-desc">${p.descripcion || ""}</p>
-        <div class="card-tags">${tagsHtml}</div>
-        <div class="card-footer">
-          <span class="card-date">2026</span>
-          <button class="btn-card-action" onclick="abrirModalProyecto('${p.id}')">
-            Ver Proyecto
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </button>
+        <div class="special-grid">
+          <div>
+            <h3 class="special-title"><span>NYC Urban Mobility</span><br>Analytics Platform</h3>
+            <p class="special-desc">${p.descripcion || ""}</p>
+            <div class="roadmap-timeline">
+              <div class="roadmap-item">
+                <div class="roadmap-phase">Capa Bronze • Ingesta Serverless</div>
+                <div class="roadmap-name">AWS Lambda 1 + Amazon S3</div>
+                <div class="roadmap-details">Extracción y streaming continuo de 117 datasets TLC (2024-2026, ~17 GB crudos).</div>
+              </div>
+              <div class="roadmap-item">
+                <div class="roadmap-phase">Capa Silver • Saneamiento &amp; Calidad</div>
+                <div class="roadmap-name">AWS Lambda 2 Cleaner (Snappy)</div>
+                <div class="roadmap-details">Filtros deterministas con 98.31% de retención limpia y estandarización de esquemas.</div>
+              </div>
+              <div class="roadmap-item">
+                <div class="roadmap-phase">Capa Gold • Big Data Distribuido</div>
+                <div class="roadmap-name">Apache Spark 4.1.2 en Amazon EC2</div>
+                <div class="roadmap-details">Broadcast Hash Joins sobre catálogo de 265 zonas y tablas dimensionales analíticas.</div>
+              </div>
+              <div class="roadmap-item">
+                <div class="roadmap-phase">Serving Layer • Visualización &amp; CI/CD</div>
+                <div class="roadmap-name">Streamlit + Docker + GitHub Actions</div>
+                <div class="roadmap-details">Dashboard interactivo en puerto 8501 con runner autoalojado y despliegue automatizado.</div>
+              </div>
+            </div>
+            <div class="card-tags" style="margin: 1.5rem 0 1rem;">${tagsHtml}</div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1.5rem;">
+              <button class="btn btn-primary" onclick="abrirModalProyecto('${p.id}')">
+                Ver Código y Métricas
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </button>
+              <a href="${p.repoUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                Repositorio GitHub
+              </a>
+              <a href="docs/special/ArquitecturaProj.drawio.svg" target="_blank" rel="noopener noreferrer" class="btn btn-special-outline">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                Diagrama SVG
+              </a>
+            </div>
+          </div>
+          <div>
+            <div class="special-architecture-box">
+              <div class="arch-header">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                ESPECIFICACIONES DE ARQUITECTURA
+              </div>
+              <div class="arch-pill-list">
+                <div class="arch-pill"><span class="arch-pill-title">Ingesta Bronze</span><span class="arch-pill-tech">AWS S3 + Lambda Ingestion</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Saneamiento Silver</span><span class="arch-pill-tech">Lambda Cleaner (Snappy)</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Cómputo Distribuido</span><span class="arch-pill-tech">Apache Spark 4.1.2</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Enriquecimiento Geo</span><span class="arch-pill-tech">Broadcast Join (265 Zonas)</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Capa Gold</span><span class="arch-pill-tech">5 Tablas Dimensionales</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Serving &amp; UI</span><span class="arch-pill-tech">Streamlit Docker (EC2:8501)</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Automatización CI/CD</span><span class="arch-pill-tech">GitHub Actions Self-Hosted</span></div>
+                <div class="arch-pill"><span class="arch-pill-title">Volumen Procesado</span><span class="arch-pill-tech" style="color:var(--accent-neon); font-weight:700;">766M+ Filas ($23.35B)</span></div>
+              </div>
+            </div>
+          </div>
         </div>
-      </article>
+      </div>
     `;
   }).join("");
 }
@@ -937,25 +1072,79 @@ function abrirModalProyecto(id) {
   const overlay = document.getElementById("modal-overlay");
   const modalContent = document.getElementById("modal-content");
   const modalTabs = document.getElementById("modal-tabs");
-  if (p.pdfUrl && modalContent) modalContent.classList.add("has-pdf");
-
-  if (p.pdfUrl && p.codigo) {
-    if (modalTabs) modalTabs.style.display = "flex";
-  } else {
-    if (modalTabs) modalTabs.style.display = "none";
-  }
+  if (modalContent) modalContent.classList.remove("has-pdf");
+  if (modalTabs) modalTabs.style.display = "none";
 
   document.getElementById("modal-title").textContent = p.titulo;
-  document.getElementById("modal-badges").innerHTML = `<span class="module-badge">Proyecto Integrador</span>`;
-  document.getElementById("modal-body").innerHTML = `<p>${p.descripcion || ""}</p>`;
+  document.getElementById("modal-badges").innerHTML = `
+    <span class="tag-pill" style="background: rgba(0, 245, 160, 0.15); color: var(--accent-neon); border-color: rgba(0, 245, 160, 0.4);">Data Lakehouse</span>
+    <span class="tag-pill" style="background: rgba(0, 210, 255, 0.15); color: var(--primary-cyan); border-color: rgba(0, 210, 255, 0.4);">766M+ Registros</span>
+    <span class="tag-pill" style="background: rgba(139, 92, 246, 0.15); color: #c084fc; border-color: rgba(139, 92, 246, 0.4);">$23.35B USD</span>
+  `;
 
-  configurarVisorCodigo(p.codigo, null);
-  configurarEnlacesYPdf(p.repoUrl, p.pdfUrl, null);
+  const criteriosList = (p.criterios && p.criterios.length > 0)
+    ? `<div style="margin-top:1.25rem;">
+        <h4 style="color:var(--text-main); font-size:0.95rem; margin-bottom:0.5rem;">Criterios y Logros Técnicos:</h4>
+        <ul style="padding-left:1.25rem; font-size:0.9rem; color:var(--text-muted);">
+          ${p.criterios.map(c => `<li style="margin-bottom:0.3rem;">${c}</li>`).join("")}
+        </ul>
+      </div>`
+    : "";
 
-  if (p.pdfUrl) {
-    cambiarPestanaModal("pdf");
-  } else {
-    cambiarPestanaModal("code");
+  const docsList = `
+    <div style="margin-top:1.25rem; background:rgba(255,255,255,0.02); border:1px solid var(--border-subtle); border-radius:var(--radius-sm); padding:1rem;">
+      <h4 style="color:var(--primary-cyan); font-size:0.95rem; margin-bottom:0.75rem; display:flex; align-items:center; gap:0.5rem;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Documentación Técnica del Proyecto (Directorio special):
+      </h4>
+      <div style="display:flex; flex-direction:column; gap:0.5rem; font-size:0.88rem;">
+        <a href="docs/special/proyecto_integrador_readme.md" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0.6rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+          <span>README Principal del Proyecto Integrador</span>
+          <span style="color:var(--accent-neon); font-family:var(--font-mono); font-size:0.75rem;">proyecto_integrador_readme.md</span>
+        </a>
+        <a href="docs/special/architecture.md" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0.6rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+          <span>Arquitectura Cloud y Patrón Medallion</span>
+          <span style="color:var(--primary-cyan); font-family:var(--font-mono); font-size:0.75rem;">architecture.md</span>
+        </a>
+        <a href="docs/special/data_quality.md" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0.6rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+          <span>Auditoría de Calidad (Bronze vs Silver)</span>
+          <span style="color:var(--primary-cyan); font-family:var(--font-mono); font-size:0.75rem;">data_quality.md</span>
+        </a>
+        <a href="docs/special/data_dictionary.md" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0.6rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+          <span>Diccionario de Datos y Selección de Features</span>
+          <span style="color:var(--primary-cyan); font-family:var(--font-mono); font-size:0.75rem;">data_dictionary.md</span>
+        </a>
+        <a href="docs/special/ArquitecturaProj.drawio.svg" target="_blank" rel="noopener noreferrer" style="color:var(--text-main); text-decoration:none; display:flex; align-items:center; justify-content:space-between; padding:0.4rem 0.6rem; background:rgba(255,255,255,0.03); border-radius:4px; border:1px solid rgba(255,255,255,0.05);">
+          <span>Diagrama Oficial de Arquitectura (Draw.io SVG)</span>
+          <span style="color:var(--accent-neon); font-family:var(--font-mono); font-size:0.75rem;">ArquitecturaProj.drawio.svg</span>
+        </a>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("modal-body").innerHTML = `
+    <p>${p.descripcion || ""}</p>
+    ${criteriosList}
+    ${docsList}
+  `;
+
+  configurarVisorCodigo(p.codigo, "Python / PySpark");
+  configurarEnlacesYPdf(p.repoUrl, null, null);
+  cambiarPestanaModal("code");
+
+  const actionsBar = document.getElementById("modal-actions-bar");
+  if (actionsBar) {
+    actionsBar.innerHTML = `
+      <a href="docs/special/ArquitecturaProj.drawio.svg" target="_blank" rel="noopener noreferrer" class="btn-pdf" style="background: rgba(0, 245, 160, 0.1); border-color: rgba(0, 245, 160, 0.3); color: var(--accent-neon);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        Diagrama Arquitectura SVG
+      </a>
+      <a href="${p.repoUrl}" target="_blank" rel="noopener noreferrer" class="btn-repo">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        Ver Repositorio GitHub
+      </a>
+    `;
+    actionsBar.style.display = "flex";
   }
 
   overlay.classList.add("active");
